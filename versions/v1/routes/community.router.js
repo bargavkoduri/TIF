@@ -6,8 +6,8 @@ const { checkValidToken } = require("../../../utils/jwt")
 
 router.get("/",CommunityController.getCommunities)
 router.post("/",checkValidToken,validationMiddleware.communityValidator,CommunityController.createCommunity)
-router.get("/:id/members",CommunityController.getCommunity)
 router.get("/me/owner",checkValidToken,CommunityController.getOwnerCommunities)
 router.get("/me/member",checkValidToken,CommunityController.getMemberCommunities)
+router.get("/:id/members",CommunityController.getCommunity)
 
 module.exports = router

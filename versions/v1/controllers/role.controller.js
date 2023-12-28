@@ -11,9 +11,22 @@ exports.createRole = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({
-      status: "false",
-    });
+    if (err.code === 11000) {
+      res.status(400).json({
+        status: false,
+        errors: [
+          {
+            param: "name",
+            message: "Role with this name already exists.",
+            code: "RESOURCE_EXISTS",
+          },
+        ],
+      });
+    } else {
+      res.status(500).json({
+        status: "false",
+      });
+    }
   }
 };
 

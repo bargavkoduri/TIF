@@ -6,7 +6,9 @@ const generateId = () => {
 }
 
 const generateUniqueSlug = (count,name) => {
-    return (count+1)+"-"+slugify(name)
+    return (count+1)+"-"+slugify(name,{
+        lower: true
+    })
 }
 
 module.exports = {generateId,generateUniqueSlug}

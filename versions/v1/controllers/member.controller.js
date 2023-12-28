@@ -57,7 +57,7 @@ exports.createMemeber = async (req, res) => {
     }
     const member = await Member.findOne({
       community: req.body.community,
-      user: req.body.community,
+      user: req.body.user,
     });
     if (member) {
       return res.status(400).json({

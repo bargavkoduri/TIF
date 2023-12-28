@@ -35,7 +35,9 @@ exports.createUser = async (req, res) => {
         ],
       });
     } else {
-      res.sendStatus(500);
+      res.status(500).json({
+        status: "false",
+      });
     }
   }
 };
@@ -89,10 +91,10 @@ exports.userDetails = async (req, res) => {
     let user = (await User.findById(req.user.id)).toJSON();
     if (!user) {
       res.status(200).json({
-        status : false,
-        errors : {
-            message : "No user found with this token"
-        }
+        status: false,
+        errors: {
+          message: "No user found with this token",
+        },
       });
     }
     delete user.password;
@@ -103,6 +105,6 @@ exports.userDetails = async (req, res) => {
       },
     });
   } catch (err) {
-    res.sendStatus(500)
+    res.sendStatus(500);
   }
 };

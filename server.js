@@ -25,3 +25,6 @@ connectDB()
 
 // v1 router
 app.use("/v1",v1Router)
+app.use("*",(req,res) => {
+    res.sendStatus(404)
+})
