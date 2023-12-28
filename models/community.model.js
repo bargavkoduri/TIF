@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const generateId = require("../utils/snowflake");
+const {generateId} = require("../utils/helper");
 
 const communitySchema = new mongoose.Schema(
   {
@@ -25,7 +25,12 @@ const communitySchema = new mongoose.Schema(
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
+        ret.created_at = ret.createdAt;
+        ret.updated_at = ret.updatedAt;
+        delete ret.__v;
         delete ret._id;
+        delete ret.createdAt;
+        delete ret.updatedAt;
       },
     },
   }

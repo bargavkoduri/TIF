@@ -1,20 +1,42 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../constants");
+const {JWT_SECRET} = require("../constants");
 
 const generateToken = (data) => {
-  return jwt.sign(data, `${JWT_SECRET}`);
+  const expiresIn = 24 * 60 * 60;
+  return jwt.sign(data, JWT_SECRET,{expiresIn});
 };
 
 const checkValidToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (token === null) res.sendStatus(401); // unauthorized
+  // unauthorized
+  if (token === null){
+    res.status(401).json({
+      status: false,
+      errors: [
+        {
+          message: "You need to sign in to proceed.",
+          code: "NOT_SIGNEDIN",
+        },
+      ],
+    });
+  } 
   else {
-    jwt.verify(token, `${JWT_SECRET}`, (err, user) => {
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+      // forbidden
       if (err) {
-        res.sendStatus(403); // forbidden
+        res.status(403).json({
+          status: false,
+          errors: [
+            {
+              message: "Invalid Token or Token expired.",
+              code: "INAVLID_TOKEN",
+            },
+          ],
+        });
       } else {
-        req.user = user; // If valid jwt token sets a new field in request object as user and decrypted jwt token.
+        // If valid jwt token sets a new field in request object as user and decrypted jwt token.
+        req.user = user;
         next();
       }
     });

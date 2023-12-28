@@ -1,5 +1,22 @@
 {
     "role" : {
         "name" : "required|min:2"
+    },
+    "signup" : {
+        "name" : "required|min:2",
+        "email" : "required|email",
+        "password" : "required|min:6"
+    },
+    "signin" : {
+        "email" : "required|email",
+        "password" : "required|min:6"
+    },
+    "community" : {
+        "name" : "required|min:2"
+    },
+    "member" : {
+        "community" : "required",
+        "user" : "required",
+        "role" : "required"
     }
 }

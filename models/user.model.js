@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const generateId = require("../utils/snowflake")
+const { generateId } = require("../utils/helper");
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,7 +25,12 @@ const userSchema = new mongoose.Schema(
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
+        ret.created_at = ret.createdAt;
+        ret.updated_at = ret.updatedAt;
+        delete ret.__v;
         delete ret._id;
+        delete ret.createdAt;
+        delete ret.updatedAt;
       },
     },
   }
@@ -38,6 +43,6 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-const User = mongoose.model("User",userSchema)
+const User = mongoose.model("User", userSchema);
 
-module.exports = User
+module.exports = User;
